@@ -1,5 +1,5 @@
 {
-  "name": "IntelliCompress: AI-Powered Image Sizer",
+  "name": "Compressly: AI-Powered Image Sizer",
   "description": "An intelligent image compression tool that allows users to specify an exact target file size. It uses AI to optimize compression settings, preserving maximum visual quality while meeting the precise size requirement.",
   "requestFramePermissions": []
 }

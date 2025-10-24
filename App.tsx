@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { ImageUploader } from './components/ImageUploader';
@@ -25,6 +25,27 @@ const App: React.FC = () => {
     const [status, setStatus] = useState<CompressionStatus>('idle');
     const [progress, setProgress] = useState(0);
     const [error, setError] = useState<string | null>(null);
+
+    const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+        if (typeof window !== 'undefined' && document.documentElement.classList.contains('dark')) {
+            return 'dark';
+        }
+        return 'light';
+    });
+
+    const toggleTheme = useCallback(() => {
+        setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
+    }, []);
+
+    useEffect(() => {
+        const root = window.document.documentElement;
+        if (theme === 'dark') {
+            root.classList.add('dark');
+        } else {
+            root.classList.remove('dark');
+        }
+        localStorage.setItem('theme', theme);
+    }, [theme]);
 
     const targetSizeInBytes = useMemo(() => {
         const size = targetSize || 0;
@@ -173,7 +194,7 @@ const App: React.FC = () => {
 
     return (
         <div className="flex flex-col min-h-screen">
-            <Header />
+            <Header theme={theme} toggleTheme={toggleTheme} />
             <main className="flex-grow w-full max-w-6xl mx-auto p-4 md:p-8">
                 <div className="space-y-8">
                     {!originalImage && (
